@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        #chat-container {
+            width: 80%;
+            max-width: 600px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #chat-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #messages { margin-bottom: 10px; }
+        .menu-item, .submenu-item {
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 50px;
+            width: 50%;
+            text-align: center;
+            margin: 5px auto;
+            transition: background-color 0.3s;
+        }
+        .menu-item:hover, .submenu-item:hover {
+            background-color: #0056b3;
+        }
+        .submenu-item { margin-bottom: 10px; }
+        #user-input { width: 80%; padding: 10px; }
+        #chat-form { margin-top: 10px; display: flex; justify-content: space-between; }
+        .bot-message {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 5px 0;
+            text-align: left;
+            position: relative;
+        }
+        .bot-message::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #e9ecef transparent transparent;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 5px 0;
+            text-align: right;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chat-container">
+    <h1 style="text-align: center;">Chatbot</h1>
+
+    <div id="chat-box">
+        <div id="messages">
+            <p class="bot-message"><strong>Bot:</strong> 아래 메뉴 중 하나를 선택해주세요:</p>
+            <div class="menu-item" data-menu="식당/카페">1. 식당/카페</div>
+            <div class="menu-item" data-menu="전시관">2. 전시관</div>
+            <div class="menu-item" data-menu="공공기관">3. 공공기관</div>
+            <div class="menu-item" data-menu="쇼핑활동">4. 쇼핑활동</div>
+            <div class="menu-item" data-menu="건강/의료">5. 건강/의료</div>
+        </div>
+    </div>
+
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="메시지를 입력하세요..." required>
+        <button type="submit">전송</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function() {
+        const submenus = {
+            "식당/카페": ["① 입장 및 이용안내", "② 자리안내", "③ 메뉴추천", "④ 메뉴주문", "⑤ 식음료 서빙", "⑥ 결제 및 할인/포인트 적립안내"],
+            "전시관": ["① 티켓구매", "② 티켓확인 및 입장안내", "③ 위치안내", "④ 분실물 안내", "⑤ 이벤트 및 행사안내", "⑥ 부대시설 안내"],
+            "공공기관": ["① 입장 및 민원서비스 이용안내", "② 민원별 번호표 발급 및 창구번호 안내", "③ 준비서류 확인", "④ 민원신청서 작성안내", "⑤ 민원 신청서 용어 질문", "⑥ 관내 복지/지원금 정보 질문"],
+            "쇼핑활동": ["① 입장 및 소개", "② 가이드 필요 유무 질문", "③ 이벤트 상품 정보안내", "④ 세일 정보안내", "⑤ 재고 현황 안내", "⑥ 피팅룸 안내", "⑦ 수선 및 배송 서비스 안내", "⑧ 결제 및 주차등록 안내"],
+            "건강/의료": ["① 진료접수 안내", "② 증상 상담", "③ 대기실 및 진료실 위치안내", "④ 약국 위치 문의", "⑤ 수납 방법 안내", "⑥ 증빙서류 발급", "⑦ 다음 진료일 예약"]
+        };
+
+        let selectedMainMenu = null;
+
+        function displayMenu() {
+            $('#messages').append('<p class="bot-message"><strong>Bot:</strong> 아래 메뉴 중 하나를 선택해주세요:</p>');
+            $('.menu-item').each(function() {
+                $('#messages').append($(this).clone());
+            });
+        }
+
+        // 메뉴 클릭 시 하위 메뉴를 보여줍니다.
+        $(document).on('click', '.menu-item', function() {
+            $('#messages').append(`<p class="bot-message"><strong>Bot:</strong> ${$(this).data('menu')} 메뉴를 선택하셨습니다.</p>`);
+            selectedMainMenu = $(this).data('menu');
+            
+            // 하위 메뉴 보여주기
+            const submenuItems = submenus[selectedMainMenu];
+            $('#messages').append('<p class="bot-message"><strong>Bot:</strong> 하위 메뉴를 선택하세요:</p>');
+            submenuItems.forEach((item, index) => {
+                $('#messages').append(`<div class="submenu-item" data-submenu="${item}">${item}</div>`);
+            });
+        });
+
+        // 하위 메뉴 클릭 시 채팅 시작
+        $(document).on('click', '.submenu-item', function() {
+            const submenu = $(this).data('submenu');
+            $('#messages').append(`<p class="user-message"><strong>You:</strong> ${submenu} 선택</p>`);
+            $('#messages').append(`<p class="bot-message"><strong>Bot:</strong> ${submenu} 관련 궁금한 점을 입력해주세요.</p>`);
+        });
+
+        // 메시지 전송
+        $('#chat-form').on('submit', function(e) {
+            e.preventDefault();
+            const userMessage = $('#user-input').val();
+            $('#messages').append(`<p class="user-message"><strong>You:</strong> ${userMessage}</p>`);
+            $('#user-input').val('');  // 입력창 초기화
+            
+            // Ajax로 서버에 사용자 메시지 전송
+            $.ajax({
+                type: 'POST',
+                url: '/chatbot/',  // Django의 views.py로 메시지 전송
+                data: {
+                    'message': userMessage,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    $('#messages').append(`<p class="bot-message"><strong>Bot:</strong> ${response.response}</p>`);
+                    // 대화가 끝나면 메뉴 다시 표시
+                    displayMenu();
+                },
+                error: function() {
+                    $('#messages').append('<p class="bot-message"><strong>Bot:</strong> 에러가 발생했습니다. 다시 시도해주세요.</p>');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
