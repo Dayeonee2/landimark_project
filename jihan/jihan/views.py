@@ -57,3 +57,12 @@ def signup(request):
 
 def chat(request):
     return render(request, 'chat.html')
+
+def qr(request):
+    return render(request, 'qr.html')
+
+def test1(request):
+    return render(request, 'test1.html') 
+
+def test2(request):
+    return render(request, 'test2.html') 

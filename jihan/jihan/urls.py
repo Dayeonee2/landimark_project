@@ -21,9 +21,12 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('chatbot/', views.chatbot, name='chatbot'),  # /chatbot/ 경로로 요청시 chatbot 함수 호출
+    path('chatbot/', views.chatbot, name='chatbot'),  
     path('page/', views.page, name='page'),
-    path('sign/', views.sign, name='sign'),  # 회원가입 페이지
-    path('signup/', views.signup, name='signup'),  # 회원가입 처리
-    path('chat/', views.chat, name='chat'),  # 새로운 chat 페이지
+    path('sign/', views.sign, name='sign'), 
+    path('signup/', views.signup, name='signup'),  
+    path('chat/', views.chat, name='chat'), 
+    path('qr/', views.qr, name='qr'),
+    path('test1/', views.test1, name='test1'),
+    path('test2/', views.test2, name='test2'),
 ]
