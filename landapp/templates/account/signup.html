@@ -8,7 +8,8 @@
 <body>
     <div class="signup-container">
         <h2>회원가입</h2>
-        <form action="/signup" method="POST">
+        <form method="POST" action="/account/signup">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" name="name" required>

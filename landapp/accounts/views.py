@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
-from accounts.models import Member
+from landapp.accounts.models import Member
 
 
 def sign_up(request):
@@ -10,17 +10,18 @@ def sign_up(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        print(f'name:{name}, email:{email}, password:{password}')
 
-        # MySQL 연결 및 데이터 삽입
-        with connection.cursor() as cursor:
-            query = "INSERT INTO member (name, email, password) VALUES (%s, %s, %s);"
-            cursor.execute(query, (name, email, password))
-            connection.commit()  # 변경사항 커밋
+        member = Member(name=name, email=email, password=password)
+        member.save()  # SQLite 저장
 
-        messages.success(request, "회원가입이 완료되었습니다!")  # 성공 메시지
-        return redirect('index')  # 가입 후 인덱스 페이지로 리다이렉트
+        content={
+            'user_name':name,
+        }
+        return render(request, 'account/index.html', content)
 
     return render(request, 'account/signup.html')
+
 
 def index(request):
     error_message = None
@@ -57,4 +58,4 @@ def logout(request):
     request.session.pop('user_email', None)
     request.session.pop('user_name', None)
     messages.success(request, "로그아웃되었습니다.")  # 로그아웃 메시지
-    return redirect('account/index.html');
+    return redirect('index');
