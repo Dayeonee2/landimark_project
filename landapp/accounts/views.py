@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
-from landapp.accounts.models import Member
+from accounts.models import Member
 
 
 def sign_up(request):
@@ -59,3 +59,7 @@ def logout(request):
     request.session.pop('user_name', None)
     messages.success(request, "로그아웃되었습니다.")  # 로그아웃 메시지
     return redirect('index');
+
+
+def aaa():
+    print('aaa')

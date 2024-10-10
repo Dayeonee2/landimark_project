@@ -4,7 +4,8 @@ from django.db import models
 
 
 class Category(models.Model):
-    category=models.TextField(max_length=100, null=False, db_index=True)
+    category=models.TextField(max_length=100, null=False)
+    category_id=models.IntegerField(null=False, db_index=True)
     # 민원 분류 카테고리
 
     def __str__(self):

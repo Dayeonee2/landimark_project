@@ -3,9 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRY CHATBOT</title>
+    <title>chatLANDI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .response {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    챗봇 체험 페이지입니다.
+
+<div class="container">
+    <h1>Chat with chatLANDI</h1>
+
+    <div>
+        <label for="question">Ask me anything:</label>
+        <input type="text" id="question" placeholder="Type your question here...">
+        <button onclick="sendQuestion()">Submit</button>
+    </div>
+
+    <div id="response" class="response"></div>
+</div>
+
+<script>
+    // 비동기 요청을 보내는 함수
+    async function sendQuestion() {
+        // 입력된 질문 가져오기
+        const question = document.getElementById("question").value;
+
+        if (question === "") {
+            alert("Please enter a question");
+            return;
+        }
+
+        // 서버에 비동기 요청 보내기
+        const responseDiv = document.getElementById("response");
+        responseDiv.innerHTML = "Processing...";
+
+        try {
+            const response = await fetch('/ask/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')  // Django CSRF 토큰 설정
+                },
+                body: JSON.stringify({ "question": question })
+            });
+
+            // 서버에서 받은 응답 처리
+            const data = await response.json();
+            responseDiv.innerHTML = `<p><strong>Response:</strong> ${data.response}</p>`;
+        } catch (error) {
+            console.error("Error:", error);
+            responseDiv.innerHTML = `<p style="color: red;">An error occurred. Please try again.</p>`;
+        }
+    }
+
+    // CSRF 토큰을 가져오는 함수 (Django CSRF 보호)
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
 </body>
 </html>
