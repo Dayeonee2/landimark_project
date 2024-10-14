@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landmark Chatbot</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/loading.css' %}"> {% endcomment %}
+
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'image/logo2.png' %}" alt="Logo">
+        </div>
+        <nav class="navbar">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about-chatlandi" class="nav-link">ABOUT</a>
+            <a href="#successful-cases" class="nav-link">Successful Cases</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="{% url 'qr' %}" target="_blank" class="qr-wrapper">
+                <img src="{% static 'image/google_drive_qr.png' %}" alt="QR Code" class="qr-icon">
+                <span class="qr-tooltip">랜디의<br> 개발자를<br> 소개합니다!</span>
+            </a>
+        </nav>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            ☰
+        </button>
+    </header>
+    
+    <!-- Home Section -->
+    <section id="home" class="section video-section">
+        <video autoplay muted class="background-video">
+            <source src="{% static 'video/test5.mp4' %}" type="video/mp4">
+        </video>
+        <a href="{% url 'chatbot_ask' %}" class="talk-btn">랜디랑 대화하기</a>
+    </section>
+
+    <!-- ABOUT chatLANDI Section -->
+    <section id="about-chatlandi" class="section">
+        <div class="about-video-container">
+            <video controls class="about-video">
+                <source src="{% static 'video/test2.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="about-content">
+            <h2>ABOUT chatLANDI</h2>
+            <p><strong>차원이 다른 챗봇 경험</strong> : BERT기반으로 질문의 맥락을 빠르게 파악합니다</p>
+            <p>복잡하고 시간이 오래 소요되는 민원처리 문제를 해결하기 위한 다양한 경로 탐색...</p>
+            <p>chatLANDI가 실시간으로 도와드립니다. 빠르고 정확하게 당신의 문제를 해결하는 든든한 파트너</p>
+        </div>
+    </section>
+
+    <!-- Successful Cases Section -->
+    <section id="successful-cases" class="section">
+        <h2>Successful Cases</h2>
+        <div class="cases-container">
+            <!-- 공공기관 -->
+            <div class="case-section">
+                <img src="{% static 'image/bk.jpeg' %}" alt="공공민원 이미지" class="case-image">
+                <h3>공공기관</h3>
+                <div class="case-description-grid">
+                    <div class="case-description">서비스안내: 입장 및 민원서비스 이용안내</div>
+                    <div class="case-description">종합업무 자동화: 민원별 번호표 발급 및 창구번호 안내</div>
+                    <div class="case-description">사용자 편의성 확대: 민원신청서 작성안내</div>
+                    <div class="case-description">근처 복지/지원금 정보 제공</div>
+                </div>
+            </div>
+            <!-- 건강/의료 -->
+            <div class="case-section">
+                <img src="{% static 'image/health.jpg' %}" alt="건강/의료 이미지" class="case-image">
+                <h3>건강/의료</h3>
+                <div class="case-description-grid">
+                    <div class="case-description">비대면 서비스 강화: 대면 필요성을 줄여 편의성 개선</div>
+                    <div class="case-description">진료접수 안내 / 다음 진료일 예약</div>
+                    <div class="case-description">단순한 업무 분류 (위치/이용안내)</div>
+                    <div class="case-description">수납 및 증명서류 발급 안내</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="section footer">
+        <div class="footer-content">
+            <p>서울특별시 동작구 장승배기로 171 노량진아이비빌 3층 | 전화번호: 02-3672-0006</p>
+        </div>
+    </section>
+
+    <script src="{% static 'js/home.js' %}"></script>
+    {% comment %} <script src="{% static 'js/loading.js' %}"></script> {% endcomment %}
+
+</body>
+</html>

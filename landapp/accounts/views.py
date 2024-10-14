@@ -59,3 +59,10 @@ def logout(request):
     request.session.pop('user_name', None)
     messages.success(request, "로그아웃되었습니다.")  # 로그아웃 메시지
     return redirect('index');
+
+
+def home(request):
+    return render(request, 'home.html') 
+
+def qr(request):
+    return render(request, 'qr.html') 

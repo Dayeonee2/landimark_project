@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개발자 소개</title>
+    <link rel="stylesheet" href="{% static 'css/qr.css' %}">  <!-- 개발자 소개 CSS 파일 -->
+</head>
+<body>
+    <header>
+        <h1>개발자 소개</h1>
+    </header>
+
+    <section class="developer-grid">
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="김현민">
+            <p>김현민 - 백엔드 개발자</p>
+        </div>
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="김민정">
+            <p>김민정 - 프론트엔드 개발자</p>
+        </div>
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="김한나">
+            <p>김한나 - 데이터 분석가</p>
+        </div>
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="김명일">
+            <p>김명일 - AI 엔지니어</p>
+        </div>
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="신다연">
+            <p>신다연 - UI/UX 디자이너</p>
+        </div>
+        <div class="developer">
+            <img src="{% static 'image/logo.JPG' %}" alt="이지한">
+            <p>이지한 - 풀스택 개발자</p>
+        </div>
+    </section>
+</body>
+</html>
